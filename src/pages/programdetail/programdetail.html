@@ -1,0 +1,104 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>{{timerId}}</ion-title>
+	</ion-navbar>
+
+	<ion-toolbar no-border-top full transparent>
+		<ion-segment [(ngModel)]="zone">
+			<ion-segment-button value="1">
+				ZONE 1
+			</ion-segment-button>
+			<ion-segment-button value="2">
+				ZONE 2
+			</ion-segment-button>
+			<ion-segment-button value="3">
+				ZONE 3
+			</ion-segment-button>
+			<ion-segment-button value="4">
+				ZONE 4
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
+
+	<ion-toolbar no-border-top full transparent>
+		<ion-segment>
+			<ion-segment-button value="1">
+				SUN
+			</ion-segment-button>
+			<ion-segment-button value="2">
+				MON
+			</ion-segment-button>
+			<ion-segment-button value="3">
+				TUE
+			</ion-segment-button>
+			<ion-segment-button value="4">
+				WED
+			</ion-segment-button>
+			<ion-segment-button value="5">
+				THU
+			</ion-segment-button>
+			<ion-segment-button value="6">
+				FRI
+			</ion-segment-button>
+			<ion-segment-button value="7">
+				SAT
+			</ion-segment-button>
+		</ion-segment>
+	</ion-toolbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+		<ion-item>
+			<ion-label>Start Time</ion-label>
+			<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="currentTime"></ion-datetime>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>Water For</ion-label>
+			<ion-select [(ngModel)]="waterForSelected">
+				<ion-option *ngFor="let waterFor of waterForList">{{waterFor.item}}</ion-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-toggle [(ngModel)]="ecoOn" checked="false"></ion-toggle>
+			<ion-label>
+				ECO Function
+			</ion-label>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>ECO Water For</ion-label>
+			<ion-select [(ngModel)]="ecoWaterForSelected">
+				<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
+			</ion-select>
+		</ion-item>
+
+		<ion-item>
+			<ion-label>ECO Water Every</ion-label>
+			<ion-select [(ngModel)]="ecoPauseSelected">
+				<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
+			</ion-select>
+		</ion-item>
+
+
+	</ion-list>
+
+	
+
+</ion-content>
+
+<ion-footer>
+	<ion-row>
+		<ion-col col-50>
+			<button ion-button color="danger" (click)="cancelClicked()" full>CANCEL</button>
+		</ion-col>
+		<ion-col col-50>
+			<button ion-button color="secondary" (click)="saveClicked()" full>SAVE</button>
+		</ion-col>
+	</ion-row>
+</ion-footer>

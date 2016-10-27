@@ -1,0 +1,20 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>BLE Timer</ion-title>
+		<ion-buttons end>
+			<button ion-button color="{{scanColor}}" (click)="scan()">
+        {{scanText}}
+      </button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+	<ion-list>
+		<button ion-item *ngFor="let timer of timers" (click)="goProgram($event, timer)">		
+		{{timer.id}}     
+		</button>
+	</ion-list>
+
+</ion-content>
