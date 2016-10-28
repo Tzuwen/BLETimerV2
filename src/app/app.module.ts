@@ -1,18 +1,18 @@
 import { NgModule } from '@angular/core';
 import { IonicApp, IonicModule } from 'ionic-angular';
 import { MyApp } from './app.component';
-
-import { ProgramTimerPage } from '../pages/programtimer/programtimer';
+import { TimersPage } from '../pages/timers/timers';
 import { ProgramMainPage } from '../pages/programmain/programmain';
 import { ProgramDetailPage } from '../pages/programdetail/programdetail';
 import { ManualPage } from '../pages/manual/manual';
 import { ConfigPage } from '../pages/config/config';
 import { TabsPage } from '../pages/tabs/tabs';
+import { Global } from './global'
 
 @NgModule({
   declarations: [
     MyApp,   
-    ProgramTimerPage,
+    TimersPage,
     ProgramMainPage,
     ProgramDetailPage,
     ManualPage,
@@ -25,13 +25,13 @@ import { TabsPage } from '../pages/tabs/tabs';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    ProgramTimerPage,
+    TimersPage,
     ProgramMainPage,
     ProgramDetailPage,
     ManualPage,
     ConfigPage,
     TabsPage
   ],
-  providers: []
+  providers: [ Global ]
 })
 export class AppModule {}

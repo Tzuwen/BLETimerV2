@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar, Splashscreen, SQLite } from 'ionic-native';
-
+import { TimersPage } from '../pages/timers/timers';
 import { TabsPage } from '../pages/tabs/tabs';
-
 
 @Component({
   template: `<ion-nav [root]="rootPage"></ion-nav>`
 })
 export class MyApp {
-  rootPage = TabsPage;
+  rootPage = TimersPage;
 
   constructor(platform: Platform) {
     platform.ready().then(() => {
@@ -17,7 +16,6 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
-
 
       // SQLite
       let db = new SQLite();
@@ -28,8 +26,8 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS cycleSchedule (" +
-          "TimerId TEXT, TimerName TEXT, Zone TEXT, StartTime TEXT, " +
-          "WaterFor TEXT, WaterEvery TEXT, EcoWater TEXT, EcoPause TEXT, IsEnable TEXT)",
+          "TimerId TEXT, TimerName TEXT, Zone TEXT, ZoneName TEXT, StartTime TEXT, " +
+          "WaterFor TEXT, WaterEvery TEXT, IsEnable INTEGER, EcoWaterFor TEXT, EcoPause TEXT, EcoIsEnable INTEGER, Img TEXT)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {
@@ -45,8 +43,8 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS weeklySchedule (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-          "TimerId TEXT, TimerName TEXT, Zone TEXT, StartTime TEXT, " +
-          "WaterFor TEXT, WaterDay TEXT, EcoWater TEXT, EcoPause TEXT, IsEnable TEXT)",
+          "TimerId TEXT, TimerName TEXT, Zone TEXT, ZoneName TEXT, StartTime TEXT, " +
+          "WaterFor TEXT, WaterDay TEXT, IsEnable INTEGER, EcoWaterFor TEXT, EcoPause TEXT, EcoIsEnable INTEGER, Img TEXT)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {

@@ -1,52 +1,42 @@
 <ion-header>
-
 	<ion-navbar>
 		<ion-title>{{timerId}}</ion-title>
 	</ion-navbar>
 
-	<ion-toolbar no-border-top full transparent>
-		<ion-segment [(ngModel)]="zone">
-			<ion-segment-button value="1">
-				ZONE 1
-			</ion-segment-button>
-			<ion-segment-button value="2">
-				ZONE 2
-			</ion-segment-button>
-			<ion-segment-button value="3">
-				ZONE 3
-			</ion-segment-button>
-			<ion-segment-button value="4">
-				ZONE 4
-			</ion-segment-button>
-		</ion-segment>
+	<ion-toolbar no-border-top transparent>
+		<ion-row>
+			<button ion-button full color='{{zone1BtnColor}}' (click)='zoneBtnClicked(1)'>1</button>
+			<button ion-button full color='{{zone2BtnColor}}' (click)='zoneBtnClicked(2)'>2</button>
+			<button ion-button full color='{{zone3BtnColor}}' (click)='zoneBtnClicked(3)'>3</button>
+			<button ion-button full color='{{zone4BtnColor}}' (click)='zoneBtnClicked(4)'>4</button>
+		</ion-row>
 	</ion-toolbar>
 
 	<ion-toolbar no-border-top full transparent>
-		<ion-segment>
-			<ion-segment-button value="1">
-				SUN
-			</ion-segment-button>
-			<ion-segment-button value="2">
-				MON
-			</ion-segment-button>
-			<ion-segment-button value="3">
-				TUE
-			</ion-segment-button>
-			<ion-segment-button value="4">
-				WED
-			</ion-segment-button>
-			<ion-segment-button value="5">
-				THU
-			</ion-segment-button>
-			<ion-segment-button value="6">
-				FRI
-			</ion-segment-button>
-			<ion-segment-button value="7">
-				SAT
-			</ion-segment-button>
-		</ion-segment>
+		<ion-row>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[0].color}}' (click)='weekdayBtnClicked(0)'>SU</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[1].color}}' (click)='weekdayBtnClicked(1)'>MO</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[2].color}}' (click)='weekdayBtnClicked(2)'>TU</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[3].color}}' (click)='weekdayBtnClicked(3)'>WE</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[4].color}}' (click)='weekdayBtnClicked(4)'>TH</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[5].color}}' (click)='weekdayBtnClicked(5)'>FR</button>
+			</ion-col>
+			<ion-col class="nopadding">
+				<button ion-button small full color='{{weekdays[6].color}}' (click)='weekdayBtnClicked(6)'>SA</button>
+			</ion-col>
+		</ion-row>
 	</ion-toolbar>
-
 </ion-header>
 
 
@@ -85,11 +75,7 @@
 			</ion-select>
 		</ion-item>
 
-
 	</ion-list>
-
-	
-
 </ion-content>
 
 <ion-footer>

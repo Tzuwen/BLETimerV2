@@ -1,9 +1,19 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>Manual</ion-title>
-  </ion-navbar>
+	<ion-navbar>
+		<ion-title>{{timerId}}</ion-title>
+	</ion-navbar>
+
+	<ion-toolbar no-border-top transparent>
+		<ion-row>
+			<button ion-button full color='{{zone1BtnColor}}' (click)='zoneBtnClicked(1)'>1</button>
+			<button ion-button full color='{{zone2BtnColor}}' (click)='zoneBtnClicked(2)'>2</button>
+			<button ion-button full color='{{zone3BtnColor}}' (click)='zoneBtnClicked(3)'>3</button>
+			<button ion-button full color='{{zone4BtnColor}}' (click)='zoneBtnClicked(4)'>4</button>
+		</ion-row>
+	</ion-toolbar>
+
 </ion-header>
 
 <ion-content>
- 
+
 </ion-content>

@@ -4,62 +4,76 @@
 	</ion-navbar>
 
 	<ion-toolbar no-border-top transparent>
-		<ion-segment [(ngModel)]="zone" full>
-			<ion-segment-button value="1">
+		<ion-row>
+			<button ion-button full color='{{zone1BtnColor}}' (click)='zoneBtnClicked(1)'>1</button>
+			<button ion-button full color='{{zone2BtnColor}}' (click)='zoneBtnClicked(2)'>2</button>
+			<button ion-button full color='{{zone3BtnColor}}' (click)='zoneBtnClicked(3)'>3</button>
+			<button ion-button full color='{{zone4BtnColor}}' (click)='zoneBtnClicked(4)'>4</button>
+		</ion-row>
+	</ion-toolbar>
+	<ion-toolbar no-border-top transparent>
+		<ion-row>
+			<button ion-button full color='{{cycleBtnColor}}' (click)='functionBtnClicked(1)'>CYCLE</button>
+			<button ion-button full color='{{weeklyBtnColor}}' (click)='functionBtnClicked(2)'>WEEKLY</button>			
+		</ion-row>
+	</ion-toolbar>
+
+	<!--<ion-toolbar no-border-top transparent>
+		<ion-segment [(ngModel)]='zone' full>
+			<ion-segment-button value='1'>
 				ZONE 1
 			</ion-segment-button>
-			<ion-segment-button value="2">
+			<ion-segment-button value='2'>
 				ZONE 2
 			</ion-segment-button>
-			<ion-segment-button value="3">
+			<ion-segment-button value='3'>
 				ZONE 3
 			</ion-segment-button>
-			<ion-segment-button value="4">
+			<ion-segment-button value='4'>
 				ZONE 4
 			</ion-segment-button>
 		</ion-segment>
 	</ion-toolbar>
-
 	<ion-toolbar no-border-top full transparent>
-		<ion-segment [(ngModel)]="function" full>
-			<ion-segment-button value="cycle">
-				<ion-icon name="md-refresh"></ion-icon>
+		<ion-segment [(ngModel)]='function' full>
+			<ion-segment-button value='cycle'>
+				<ion-icon name='md-refresh'></ion-icon>
 				CYCLE
 			</ion-segment-button>
-			<ion-segment-button value="weekly">
-				<ion-icon name="md-time"></ion-icon>
+			<ion-segment-button value='weekly'>
+				<ion-icon name='md-time'></ion-icon>
 				WEEKLY
 			</ion-segment-button>
 		</ion-segment>
-	</ion-toolbar>
+	</ion-toolbar>-->
 
 </ion-header>
 
 <ion-content padding>
-	<div [ngSwitch]="function">
+	<div [ngSwitch]='function'>
 		<div *ngSwitchCase="'cycle'">
 			<ion-list>
 				<ion-item>
 					<ion-label>Start Time</ion-label>
-					<ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="currentTime"></ion-datetime>
+					<ion-datetime displayFormat='h:mm A' pickerFormat='h mm A' [(ngModel)]='currentTime'></ion-datetime>
 				</ion-item>
 
 				<ion-item>
 					<ion-label>Water For</ion-label>
-					<ion-select [(ngModel)]="waterForSelected">
-						<ion-option *ngFor="let waterFor of waterForList">{{waterFor.item}}</ion-option>
+					<ion-select [(ngModel)]='waterForSelected'>
+						<ion-option *ngFor='let waterFor of waterForList'>{{waterFor.item}}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item>
 					<ion-label>Water Every</ion-label>
-					<ion-select [(ngModel)]="waterEverySelected">
-						<ion-option *ngFor="let waterFor of watereEeryList">{{waterFor.item}}</ion-option>
+					<ion-select [(ngModel)]='waterEverySelected'>
+						<ion-option *ngFor='let waterFor of watereEeryList'>{{waterFor.item}}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item>
-					<ion-toggle [(ngModel)]="ecoOn" checked="false"></ion-toggle>
+					<ion-toggle [(ngModel)]='ecoOn' checked='false'></ion-toggle>
 					<ion-label>
 						ECO Function
 					</ion-label>
@@ -67,20 +81,20 @@
 
 				<ion-item>
 					<ion-label>ECO Water For</ion-label>
-					<ion-select [(ngModel)]="ecoWaterForSelected">
-						<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
+					<ion-select [(ngModel)]='ecoWaterForSelected'>
+						<ion-option *ngFor='let ecoWaterFor of ecoWaterForList'>{{ecoWaterFor.item}}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item>
 					<ion-label>ECO Water Every</ion-label>
-					<ion-select [(ngModel)]="ecoPauseSelected">
-						<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
+					<ion-select [(ngModel)]='ecoPauseSelected'>
+						<ion-option *ngFor='let ecoPause of ecoPauseList'>{{ecoPause.item}}</ion-option>
 					</ion-select>
 				</ion-item>
 
 				<ion-item>
-					<ion-toggle checked="false"></ion-toggle>
+					<ion-toggle checked='false'></ion-toggle>
 					<ion-label>
 						Program
 					</ion-label>
@@ -91,20 +105,20 @@
 		<div *ngSwitchCase="'weekly'">
 			<ion-toolbar full transparent>
 				<ion-buttons start>
-					<button ion-button outline icon-left color="danger" class="outlinebutton" style="font-weight: bold;">
+					<button ion-button outline icon-left color='danger' class='outlinebutton' style='font-weight: bold;'>
 				<ion-icon name='trash'></ion-icon>
 				Delete
 				</button>
 				</ion-buttons>
 				<ion-title text-center>Schedule</ion-title>
 				<ion-buttons end>
-					<button ion-button outline icon-left class="outlinebutton" style="font-weight: bold;" (click)="goProgramDetailClick()">				
+					<button ion-button outline icon-left class='outlinebutton' style='font-weight: bold;' (click)='goProgramDetailClick()'>				
 				<ion-icon name='add'></ion-icon>
 				Add
 				</button>
 				</ion-buttons>
 			</ion-toolbar>
-			<ion-scroll scrollY="true">
+			<ion-scroll scrollY='true'>
 
 			</ion-scroll>
 		</div>
