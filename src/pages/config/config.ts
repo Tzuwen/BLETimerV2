@@ -9,8 +9,6 @@ import { NavController } from 'ionic-angular';
 export class ConfigPage {
 
   constructor(public navCtrl: NavController) {
-    
+
   }
-
-
 }

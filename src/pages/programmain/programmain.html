@@ -1,52 +1,13 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{timerId}}</ion-title>
+		<ion-title>{{timerId}},Zone{{zoneId}}</ion-title>
 	</ion-navbar>
-
-	<ion-toolbar no-border-top transparent>
-		<ion-row>
-			<button ion-button full color='{{zone1BtnColor}}' (click)='zoneBtnClicked(1)'>1</button>
-			<button ion-button full color='{{zone2BtnColor}}' (click)='zoneBtnClicked(2)'>2</button>
-			<button ion-button full color='{{zone3BtnColor}}' (click)='zoneBtnClicked(3)'>3</button>
-			<button ion-button full color='{{zone4BtnColor}}' (click)='zoneBtnClicked(4)'>4</button>
-		</ion-row>
-	</ion-toolbar>
 	<ion-toolbar no-border-top transparent>
 		<ion-row>
 			<button ion-button full color='{{cycleBtnColor}}' (click)='functionBtnClicked(1)'>CYCLE</button>
-			<button ion-button full color='{{weeklyBtnColor}}' (click)='functionBtnClicked(2)'>WEEKLY</button>			
+			<button ion-button full color='{{weeklyBtnColor}}' (click)='functionBtnClicked(2)'>WEEKLY</button>
 		</ion-row>
 	</ion-toolbar>
-
-	<!--<ion-toolbar no-border-top transparent>
-		<ion-segment [(ngModel)]='zone' full>
-			<ion-segment-button value='1'>
-				ZONE 1
-			</ion-segment-button>
-			<ion-segment-button value='2'>
-				ZONE 2
-			</ion-segment-button>
-			<ion-segment-button value='3'>
-				ZONE 3
-			</ion-segment-button>
-			<ion-segment-button value='4'>
-				ZONE 4
-			</ion-segment-button>
-		</ion-segment>
-	</ion-toolbar>
-	<ion-toolbar no-border-top full transparent>
-		<ion-segment [(ngModel)]='function' full>
-			<ion-segment-button value='cycle'>
-				<ion-icon name='md-refresh'></ion-icon>
-				CYCLE
-			</ion-segment-button>
-			<ion-segment-button value='weekly'>
-				<ion-icon name='md-time'></ion-icon>
-				WEEKLY
-			</ion-segment-button>
-		</ion-segment>
-	</ion-toolbar>-->
-
 </ion-header>
 
 <ion-content padding>
@@ -55,7 +16,7 @@
 			<ion-list>
 				<ion-item>
 					<ion-label>Start Time</ion-label>
-					<ion-datetime displayFormat='h:mm A' pickerFormat='h mm A' [(ngModel)]='currentTime'></ion-datetime>
+					<ion-datetime displayFormat='h:mm A' pickerFormat='h mm A' [(ngModel)]='startTime'></ion-datetime>
 				</ion-item>
 
 				<ion-item>
@@ -73,7 +34,7 @@
 				</ion-item>
 
 				<ion-item>
-					<ion-toggle [(ngModel)]='ecoOn' checked='false'></ion-toggle>
+					<ion-toggle [(ngModel)]='ecoIsEnable' checked='false'></ion-toggle>
 					<ion-label>
 						ECO Function
 					</ion-label>
@@ -94,34 +55,67 @@
 				</ion-item>
 
 				<ion-item>
-					<ion-toggle checked='false'></ion-toggle>
+					<ion-toggle [(ngModel)]='isEnable' checked='false'></ion-toggle>
 					<ion-label>
 						Program
 					</ion-label>
 				</ion-item>
+				<button ion-button color="secondary" full (click)="saveClicked()">SAVE</button>
 			</ion-list>
 		</div>
 
 		<div *ngSwitchCase="'weekly'">
-			<ion-toolbar full transparent>
-				<ion-buttons start>
-					<button ion-button outline icon-left color='danger' class='outlinebutton' style='font-weight: bold;'>
-				<ion-icon name='trash'></ion-icon>
+			<ion-toolbar no-border-top transparent>
+				<ion-row>
+					<ion-buttons start>
+						<button ion-button outline icon-left color="danger" class="outlinebutton" style="font-weight: bold;" (click)="showDeleteClicked()">
+				<ion-icon name="trash"></ion-icon>
 				Delete
 				</button>
-				</ion-buttons>
-				<ion-title text-center>Schedule</ion-title>
-				<ion-buttons end>
-					<button ion-button outline icon-left class='outlinebutton' style='font-weight: bold;' (click)='goProgramDetailClick()'>				
-				<ion-icon name='add'></ion-icon>
+					</ion-buttons>
+					<ion-title text-center>Schedule</ion-title>
+					<ion-buttons end>
+						<button ion-button outline icon-left class="outlinebutton" style="font-weight: bold;" (click)="goToProgramDetailClick()">				
+				<ion-icon name="add"></ion-icon>
 				Add
 				</button>
-				</ion-buttons>
+					</ion-buttons>
+				</ion-row>
 			</ion-toolbar>
-			<ion-scroll scrollY='true'>
-
-			</ion-scroll>
+			<ion-list>
+				<ion-item *ngFor="let weeklyData of weeklyDataList">
+					<ion-grid>
+						<ion-row>
+							<ion-col width-67 (click)="editWeeklyClicked(weeklyData)">
+								<div [hidden]="!weeklyData.isEnable">
+									<p color="primary" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
+									<h1 color="black" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
+									<p color="primary" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
+								</div>
+								<div [hidden]="weeklyData.isEnable">
+									<p color="lightgray" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
+									<h1 color="lightgray" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
+									<p color="lightgray" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
+								</div>
+							</ion-col>
+							<ion-col width-33>
+								<div [hidden]="hideDeleteBtn">
+									<ion-item no-lines style="margin-top: 3px;margin-left: 25px">
+										<button ion-button color="danger" clear icon-only (click)="deleteWeeklyClicked(weeklyData)" >
+										<ion-icon name="trash" is-active="true"></ion-icon>
+									</button>
+									</ion-item>
+								</div>								
+									<div [hidden]="!hideDeleteBtn">
+									<ion-item no-lines style="margin-top: 11px;">
+										<ion-toggle [(ngModel)]="weeklyData.isEnable" (click)="updateWeeklyIsEnable(weeklyData)"></ion-toggle>
+									</ion-item>
+								</div>
+							</ion-col>
+						</ion-row>
+					</ion-grid>
+				</ion-item>
+			</ion-list>
 		</div>
 	</div>
-
 </ion-content>

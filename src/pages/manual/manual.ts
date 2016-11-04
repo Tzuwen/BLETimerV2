@@ -1,57 +1,107 @@
-import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-//import { Global } from '../../app/global';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { NavController, NavParams, Slides, ToastController } from 'ionic-angular';
 
 @Component({
-  selector: 'page-manual',
-  templateUrl: 'manual.html'
+    selector: 'page-manual',
+    templateUrl: 'manual.html'
 })
-export class ManualPage {
-  timerId: string;
-  zone: string = '1';
-  zone1BtnColor = 'primary';
-  zone2BtnColor = 'secondary';
-  zone3BtnColor = 'secondary';
-  zone4BtnColor = 'secondary';
 
-  constructor(
-    public navCtrl: NavController,
-    public params: NavParams) {
-      this.timerId = this.params.get('timerId');
-  }
+export class ManualPage {  
 
-  ionViewDidLoad() { }
+    timerId: string;
+    zoneId: number = 1;    
+    isWatering: boolean = false;
 
-  public zoneBtnClicked(currentZone) {
-    switch (currentZone) {
-      case 1:
-        this.zone = '1';
-        this.zone1BtnColor = 'primary';
-        this.zone2BtnColor = 'secondary';
-        this.zone3BtnColor = 'secondary';
-        this.zone4BtnColor = 'secondary';
-        break;
-      case 2:
-        this.zone = '2';
-        this.zone1BtnColor = 'secondary';
-        this.zone2BtnColor = 'primary';
-        this.zone3BtnColor = 'secondary';
-        this.zone4BtnColor = 'secondary';
-        break;
-      case 3:
-        this.zone = '3';
-        this.zone1BtnColor = 'secondary';
-        this.zone2BtnColor = 'secondary';
-        this.zone3BtnColor = 'primary';
-        this.zone4BtnColor = 'secondary';
-        break;
-      case 4:
-        this.zone = '4';
-        this.zone1BtnColor = 'secondary';
-        this.zone2BtnColor = 'secondary';
-        this.zone3BtnColor = 'secondary';
-        this.zone4BtnColor = 'primary';
-        break;
+    sliderMins = [];
+
+    mySlideOptions1 = {
+        initialSlide: 0,
+        direction: 'vertical',
+        loop: false,
+        speed: 300,
+        freeMode: true,
+        freeModeSticky: true,
+        slidesPerView: 3,
+        spaceBetween: 60,
+        effect: 'coverflow',
+        coverflow: {
+            rotate: -5,
+            stretch: 0,
+            depth: 50,
+            modifier: 1,
+            slideShadows: false
+        }
+    };
+
+    @ViewChild('mySlider1') slider1: Slides;
+
+    constructor(
+        public navCtrl: NavController,
+        public params: NavParams,
+        public toastCtrl: ToastController) {
+        this.timerId = this.params.get('timerId');
+        this.zoneId = this.params.get('zoneId');
     }
-  }
+
+    ionViewDidLoad() {
+        var j = 35
+        for (var i = -1; i <= 97; i++) {
+            if (i == -1 || i == 97) {
+                this.sliderMins.push({ item: '' });
+            } else if (i > 30 && i < 97) {
+                this.sliderMins.push({ item: j });
+                j += 5;
+            } else {
+                if (i != 0) {
+                    this.sliderMins.push({ item: i });
+                }
+            }
+        }
+    }
+
+    startClicked() {
+        var minutes = (this.slider1.getActiveIndex() + 1);
+        if (minutes == -1 || minutes >= 97) {
+            if (minutes == -1) {
+                minutes = 5;
+            } else {
+                minutes = 360;
+            }
+        } else {
+            minutes = this.sliderMins[minutes].item;
+        }
+        this.isWatering = true;
+        this.presentToast('Start water for ' + minutes + ' minutes');
+    }
+
+    stopClicked() {   
+        this.isWatering = false;
+        this.presentToast('Stop manual watering');
+    }
+
+    // countdownStart(duration: number) {
+    //     console.log(duration);
+    //     var timer = duration, minutes, seconds;
+    //     setInterval(function () {
+    //         minutes = parseInt((timer / 60).toString(), 10);
+    //         seconds = parseInt((timer % 60).toString(), 10);
+    //         minutes = minutes < 10 ? "0" + minutes : minutes;
+    //         seconds = seconds < 10 ? "0" + seconds : seconds;
+    //         this.timerRemain = minutes + ':' + seconds;
+
+    //         if (timer > 0) {
+    //             console.log(this.timerRemain);
+    //             timer--;
+    //         }
+    //     }, 1000);
+    // }
+
+    presentToast(msg) {
+        let toast = this.toastCtrl.create({
+            message: msg,
+            duration: 1500,
+            position: 'top'
+        });
+        toast.present();
+    }
 }

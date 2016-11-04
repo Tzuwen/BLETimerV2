@@ -1,3 +1,20 @@
 page-program2 {
+    
+ion-grid ion-row ion-col div h1 p ion-item {
+    padding: 0px !important;
+}
 
+.alignleft { 
+    position: relative !important; 
+    float: left !important; 
+    } 
+.alignright { 
+    position: relative !important; 
+    float: right !important;
+    } 
+
+.alignmiddle { 
+    position: relative !important; 
+    float: middle !important; 
+    }
 }
