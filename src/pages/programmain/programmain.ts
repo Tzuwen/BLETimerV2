@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform, ModalController, AlertController, ToastController } from 'ionic-angular';
+import { NavController, NavParams, Platform, ModalController, AlertController, ToastController, ItemSliding } from 'ionic-angular';
 import { SQLite } from 'ionic-native';
 
 import { ValvesPage } from '../valves/valves';
@@ -18,7 +18,8 @@ export class ProgramMainPage {
     cycleBtnColor: string = 'primary';
     weeklyBtnColor: string = 'secondary';
     weeklyToolbarHide: boolean = true;
-    hideDeleteBtn: boolean = true;
+    hideMainDeleteBtn: boolean = true;
+    hideMinorDeleteBtn: boolean = true;
 
     isEnable: boolean = false;
     waterForSelected: string = '5 Mins';
@@ -46,7 +47,7 @@ export class ProgramMainPage {
         this.zoneId = this.params.get('zoneId');
         platform.ready().then(() => {
             this.database = new SQLite();
-            this.database.openDatabase({ name: "data.db", location: "default" }).then(() => {
+            this.database.openDatabase({ name: "bleDB.db", location: "default" }).then(() => {
                 this.getCycleData();
             }, (error) => {
                 //console.log("ERROR: ", error);
@@ -54,7 +55,7 @@ export class ProgramMainPage {
         });
     }
 
-    ionViewDidLoad() {        
+    ionViewDidLoad() {
         var j = 5;
         for (var i = 0; i < 52; i++) {
             this.waterForList.push({ item: j + ' Mins' });
@@ -143,28 +144,35 @@ export class ProgramMainPage {
     }
 
     showDeleteClicked() {
-        if (this.hideDeleteBtn == true) {
-            this.hideDeleteBtn = false;
+        if (this.hideMinorDeleteBtn == true) {
+            this.hideMinorDeleteBtn = false;
         } else {
-            this.hideDeleteBtn = true;
+            this.hideMinorDeleteBtn = true;
         }
     }
 
     updateWeeklyIsEnable(weeklyData) {
-         this.database.executeSql("UPDATE weeklySchedule set IsEnable = '" + weeklyData.isEnable + 
-         "' WHERE id = '" + weeklyData.id + "'", []).then((data) => {
-             if (weeklyData.isEnable == true) {
-                 this.presentToast("Program On");
-             } else {
-                 this.presentToast("Program Off");
-             }
-        //console.log("update weekly isenable : " + JSON.stringify(data));
-      }, (error) => {
-          //console.log("ERROR(weekly): " + JSON.stringify(error));
-      });
+        console.log(weeklyData.waterDay);
+        if (weeklyData.waterDay == "") {
+            this.editWeeklyClicked(weeklyData);
+        } else {
+            this.database.executeSql("UPDATE weeklySchedule set IsEnable = '" + weeklyData.isEnable +
+                "' WHERE id = '" + weeklyData.id + "'", []).then((data) => {
+                    if (weeklyData.isEnable == true) {
+                        this.presentToast("Program On");
+                    } else {
+                        this.presentToast("Program Off");
+                    }
+                    //console.log("update weekly isenable : " + JSON.stringify(data));
+                }, (error) => {
+                    //console.log("ERROR(weekly): " + JSON.stringify(error));
+                });
+        }
+
     }
- 
-    deleteWeeklyClicked(weeklyData) {       
+
+    deleteWeeklyClicked(weeklyData) {
+        console.log(weeklyData);
         this.database.executeSql("DELETE FROM weeklySchedule WHERE id = '" + weeklyData.id + "'", []).then((data) => {
             //console.log("Weekly Schedule deleted: " + JSON.stringify(data));          
             this.presentToast('Schedule deleted');
@@ -215,7 +223,7 @@ export class ProgramMainPage {
         this.database.executeSql("SELECT * FROM weeklySchedule " +
             "WHERE TimerId = '" + this.timerId + "' and ZoneId = '" + this.zoneId + "'", []).then((data) => {
                 this.weeklyDataList = [];
-                if (data.rows.length > 0) {                    
+                if (data.rows.length > 0) {
                     for (var i = 0; i < data.rows.length; i++) {
                         this.weeklyDataList.push({
                             id: data.rows.item(i).id,
@@ -226,14 +234,39 @@ export class ProgramMainPage {
                             ecoIsEnable: data.rows.item(i).EcoIsEnale,
                             ecoWaterFor: data.rows.item(i).EcoWaterFor + ' Mins',
                             ecoPause: data.rows.item(i).EcoPause + ' Mins'
-                        });                        
+                        });
                     }
+                    this.hideMainDeleteBtn = false;
+                } else {
+                    this.hideMainDeleteBtn = true;
+                    // insert new data if db is null
+                    this.initialWeeklyData();
                 }
                 //console.log("Load Weekly Data: " + JSON.stringify(data));
             }, (error) => {
                 //console.log("ERROR(weekly): " + JSON.stringify(error));
             });
-        this.hideDeleteBtn = true;
+        this.hideMinorDeleteBtn = true;
+    }
+
+    // this is for the ble lcd moduel water timer
+    private initialWeeklyData() {
+        for (var i = 0; i <= 3; i++) {
+            var startTime = "1980-11-06T00:00:00.000Z";
+            var waterFor = 5;
+            var weekdaySelected: string = "";
+            var ecoWaterFor = 3;
+            var ecoPause = 3;
+
+            this.database.executeSql("INSERT INTO weeklySchedule (TimerId, ZoneId, StartTime, WaterFor, WaterDay, IsEnable, EcoWaterFor, EcoPause, EcoIsEnable) " +
+                "VALUES ('" + this.timerId + "', '" + this.zoneId + "', '" + startTime + "', '" + waterFor +
+                "', '" + weekdaySelected + "', 0, '" + ecoWaterFor + "', '" + ecoPause + "', 0)", []).then((data) => {
+                    //console.log('INSERTED: ' + JSON.stringify(data));              
+                }, (error) => {
+                    //console.log('ERROR: ' + JSON.stringify(error));
+                });
+        }
+        this.getWeeklyData();
     }
 
     private getMinutes(str: string) {
@@ -256,10 +289,10 @@ export class ProgramMainPage {
     }
 
     private getWaterDays(str: string) {
+        var weekString = "";
         if (str != "") {
             var days = [{ item: 'Sun ' }, { item: 'Mon ' }, { item: 'Tue ' },
-            { item: 'Wed ' }, { item: 'Thu ' }, { item: 'Fri ' }, { item: 'Sat' }];
-            var weekString = "";
+            { item: 'Wed ' }, { item: 'Thu ' }, { item: 'Fri ' }, { item: 'Sat' }];            
             for (var i = 0; i < 7; i++) {
                 if (str.indexOf(i.toString()) >= 0) {
                     weekString += days[i].item;

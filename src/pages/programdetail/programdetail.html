@@ -31,7 +31,7 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
 	<ion-list>
 		<ion-item>
 			<ion-label>Start Time</ion-label>
@@ -45,7 +45,7 @@
 			</ion-select>
 		</ion-item>
 
-		<ion-item>
+		<!--<ion-item>
 			<ion-toggle [(ngModel)]="ecoIsEnable" checked="false"></ion-toggle>
 			<ion-label>
 				ECO Function
@@ -64,7 +64,7 @@
 			<ion-select [(ngModel)]="ecoPauseSelected">
 				<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
 			</ion-select>
-		</ion-item>
+		</ion-item>-->
 
 	</ion-list>
 </ion-content>

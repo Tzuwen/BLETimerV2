@@ -5,8 +5,7 @@
 </ion-header>
 
 <ion-content>
-<ion-tabs>  
-  <!--<ion-tab [root]="tab1Root" tabTitle="TIMER" tabIcon="md-bluetooth"></ion-tab>-->
+<ion-tabs>
   <ion-tab [root]="tab1Root" tabTitle="PROGRAM" tabIcon="ios-water" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>
   <ion-tab [root]="tab2Root" tabTitle="MANUAL" tabIcon="md-hand" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>
   <ion-tab [root]="tab3Root" tabTitle="CONFIG" tabIcon="md-settings" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>

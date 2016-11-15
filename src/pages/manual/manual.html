@@ -4,14 +4,14 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content text-center>
+<ion-content text-center style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
 	<!--<h1>00:00:00</h1>-->
 	<h1> Water For</h1>
-	<div>
+	<div text-center>		
 		<ion-card>
 			<ion-row style="height:130px;">
 				<ion-col>
-					<ion-slides #mySlider1 [options]="mySlideOptions1" pager>
+					<ion-slides #mySlider1 [options]="mySlideOptions1" (ionDidChange)="onSlideChanged()">
 						<ion-slide *ngFor="let sliderMin of sliderMins">
 							<h1 class="swiperFont">{{sliderMin.item}}</h1>
 						</ion-slide>

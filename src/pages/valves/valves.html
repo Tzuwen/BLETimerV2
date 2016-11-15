@@ -4,19 +4,19 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
-	<ion-list>
+<ion-content padding style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
+	<ion-list class="no-padding">
 		<ion-item *ngFor="let zone of zoneList">
 			<ion-row>
-				<ion-col col-75>
-					<img src="assets/img/zoneimg.png">
+				<ion-col col-75 class="no-padding">
+					<img src="{{ zone.Image }}" (click)="takePicture(zone)" class="thumbnail">
 				</ion-col>
-				<ion-col col-25 (click)="goToTabs($event, zone)">
+				<ion-col col-25 (click)="goToTabs(zone.id)" class="no-padding">
 					<div style="height: 100%; text-align: center;">
 						<h2>ZONE {{zone.id}}</h2>
 					</div>
 				</ion-col>
 			</ion-row>
-		</ion-item>		
+		</ion-item>
 	</ion-list>
 </ion-content>

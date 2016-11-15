@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform } from 'ionic-angular';
+import { Camera } from "ionic-native";
 import { TabsPage } from '../tabs/tabs';
 
-/*
-  Generated class for the Valves page.
-
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
 @Component({
   selector: 'page-valves',
   templateUrl: 'valves.html'
@@ -16,21 +11,71 @@ export class ValvesPage {
 
   timerId: string;
   zones: number;
-  zoneList = [];
   zoneSelected: number;
+  public base64Image: string = "assets/img/camera.png";
+  zoneList = [];
 
-  constructor(public navCtrl: NavController, public params: NavParams) {
+  constructor(
+    public navCtrl: NavController,
+    public params: NavParams,
+    public platform: Platform) {
     this.timerId = params.get('timerId');
     this.zones = params.get('zones');
+  }
+
+  ionViewDidLoad() {
+    // todo, load zones from db
     for (var i = 1; i <= this.zones; i++) {
-      this.zoneList.push({ id: i });
+      this.zoneList.push({ id: i, Image: this.base64Image });
     }
   }
 
-  ionViewDidLoad() {}
-
-  goToTabs(event, zone) {
-    this.zoneSelected = zone.id;
+  goToTabs(zoneId) {
+    this.zoneSelected = zoneId;
     this.navCtrl.push(TabsPage, { timerId: this.timerId, zoneId: this.zoneSelected });
+  }
+
+  public takePicture(zone) {
+    if (this.platform.is('ios')) {
+      // This will only print when on iOS
+      console.log("I'm an iOS device!");
+      Camera.getPicture({
+        quality: 100,
+        destinationType: Camera.DestinationType.NATIVE_URI,
+        //destinationType: Camera.DestinationType.DATA_URL,
+        //sourceType : Camera.PictureSourceType.CAMERA,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        allowEdit: true,
+        encodingType: Camera.EncodingType.JPEG,
+        targetWidth: 180,
+        targetHeight: 120,
+        saveToPhotoAlbum: false
+      }).then(imageData => {
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        zone.Image = this.base64Image;
+      }, error => {
+        console.log("ERROR -> " + JSON.stringify(error));
+      });
+    } else if (this.platform.is('android')) {
+      console.log("I'm an Android device!");
+      Camera.getPicture({
+        quality: 100,
+        destinationType: Camera.DestinationType.FILE_URI,
+        //destinationType: Camera.DestinationType.DATA_URL,
+        //sourceType : Camera.PictureSourceType.CAMERA,
+        sourceType: Camera.PictureSourceType.PHOTOLIBRARY,
+        allowEdit: true,
+        encodingType: Camera.EncodingType.JPEG,
+        targetWidth: 180,
+        targetHeight: 120,
+        saveToPhotoAlbum: false
+      }).then(imageData => {
+        this.base64Image = "data:image/jpeg;base64," + imageData;
+        zone.Image = this.base64Image;
+      }, error => {
+        console.log("ERROR -> " + JSON.stringify(error));
+      });
+    }
+
   }
 }

@@ -21,4 +21,9 @@ h1 {
     color: dodgerblue;
 }
 
+.slider-slide {
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+}
+
 }

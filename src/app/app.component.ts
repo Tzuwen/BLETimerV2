@@ -20,9 +20,24 @@ export class MyApp {
       // SQLite
       let db = new SQLite();
 
-      // create cycle database
+      // create database
+       db.openDatabase({
+        name: "bleDB.db",
+        location: "default"
+      }).then(() => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS bleTimer (" +
+          "TimerId TEXT, ZoneId INTEGER, PhotoPath TEXT)",
+          {}).then((data) => {
+            console.log("TABLE CREATED: ", data);
+          }, (error) => {
+            console.error("Unable to execute sql", error);
+          })
+      }, (error) => {
+        console.error("Unable to open database", error);
+      });
+
       db.openDatabase({
-        name: "data.db",
+        name: "bleDB.db",
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS cycleSchedule (" +
@@ -39,7 +54,7 @@ export class MyApp {
 
       // create weekly database
       db.openDatabase({
-        name: "data.db",
+        name: "bleDB.db",
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS weeklySchedule (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -53,6 +68,8 @@ export class MyApp {
       }, (error) => {
         console.error("Unable to open database", error);
       });
+
+      
     });
   }
 }

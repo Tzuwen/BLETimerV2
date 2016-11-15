@@ -47,7 +47,7 @@ export class ProgramDetailPage {
     this.weeklyDataId = params.get('weeklyDataId');
     platform.ready().then(() => {
       this.database = new SQLite();
-      this.database.openDatabase({ name: "data.db", location: "default" }).then(() => {
+      this.database.openDatabase({ name: "bleDB.db", location: "default" }).then(() => {
         if (this.weeklyDataId != -1) {
           // load weekly data by id
           this.loadWeeklyData();

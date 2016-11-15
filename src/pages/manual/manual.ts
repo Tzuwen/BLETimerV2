@@ -6,28 +6,29 @@ import { NavController, NavParams, Slides, ToastController } from 'ionic-angular
     templateUrl: 'manual.html'
 })
 
-export class ManualPage {  
+export class ManualPage {
 
     timerId: string;
-    zoneId: number = 1;    
+    zoneId: number = 1;
     isWatering: boolean = false;
-
+    currentIndex: number = 0;
     sliderMins = [];
+    minSelected: string = '1';
 
     mySlideOptions1 = {
         initialSlide: 0,
         direction: 'vertical',
         loop: false,
-        speed: 300,
+        speed: 10,
         freeMode: true,
         freeModeSticky: true,
         slidesPerView: 3,
-        spaceBetween: 60,
+        spaceBetween: 50,
         effect: 'coverflow',
         coverflow: {
-            rotate: -5,
+            rotate: 0,
             stretch: 0,
-            depth: 50,
+            depth: 0,
             modifier: 1,
             slideShadows: false
         }
@@ -43,7 +44,7 @@ export class ManualPage {
         this.zoneId = this.params.get('zoneId');
     }
 
-    ionViewDidLoad() {
+    ionViewDidLoad() { 
         var j = 35
         for (var i = -1; i <= 97; i++) {
             if (i == -1 || i == 97) {
@@ -74,7 +75,7 @@ export class ManualPage {
         this.presentToast('Start water for ' + minutes + ' minutes');
     }
 
-    stopClicked() {   
+    stopClicked() {
         this.isWatering = false;
         this.presentToast('Stop manual watering');
     }
@@ -103,5 +104,9 @@ export class ManualPage {
             position: 'top'
         });
         toast.present();
+    }
+
+    onSlideChanged() {
+        // console.log(this.slider1.getActiveIndex());
     }
 }

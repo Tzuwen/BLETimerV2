@@ -22,4 +22,8 @@ export class TabsPage {
     this.timerId = params.get('timerId');
     this.zoneId = params.get('zoneId');
   }
+
+  test() {
+    console.log('hello');
+  }
 }

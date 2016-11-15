@@ -2,21 +2,21 @@
 	<ion-navbar>
 		<ion-title>BLE Timer</ion-title>
 		<ion-buttons end>
-			<button ion-button color="{{scanColor}}" (click)="scan()">
+			<button ion-button color="{{scanColor}}" (click)="scan()">				
         {{scanText}}
       </button>
 		</ion-buttons>
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
-	<ion-list>
+<ion-content padding style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
+	<ion-list class="no-padding">
 		<ion-item *ngFor="let timer of timers">
 			<ion-row>
-				<ion-col col-75>
-					<img src="assets/img/productimg.png">
+				<ion-col col-75 class="no-padding">
+					<img src="{{ timer.Image }}" (click)="takePicture(timer)" class="thumbnail">
 				</ion-col>
-				<ion-col col-25 (click)="goToProgram($event, timer)">
+				<ion-col col-25 (click)="goToValves(timer.timerId, timer.zones)" class="no-padding">
 					<div style="height: 100%; text-align: center;">
 						<h2>{{timer.timerId}}</h2>
 						<p>Zones : {{timer.zones}}</p>
