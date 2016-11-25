@@ -106,31 +106,34 @@
 				</ion-item-sliding>
 			</ion-list>-->
 
-
 			<ion-list>
 				<ion-item *ngFor="let weeklyData of weeklyDataList">
 					<ion-row>
 						<ion-col width-67 (click)="editWeeklyClicked(weeklyData)">
-							<div [hidden]="!weeklyData.isEnable">
+							<div *ngIf="weeklyData.isEnable">
+							<!--<div [hidden]="!weeklyData.isEnable">-->
 								<p color="primary" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
 								<h1 color="black" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
 								<p color="primary" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
-							</div>
-							<div [hidden]="weeklyData.isEnable">
+							</div>							
+							<div *ngIf="!weeklyData.isEnable">
+							<!--<div [hidden]="weeklyData.isEnable">-->
 								<p color="lightgray" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
 								<h1 color="lightgray" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
 								<p color="lightgray" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
 							</div>
 						</ion-col>
 						<ion-col width-33>
-							<div [hidden]="hideMinorDeleteBtn">
+							<div *ngIf="!hideMinorDeleteBtn">
+							<!--<div [hidden]="hideMinorDeleteBtn">-->
 								<ion-item no-lines style="margin-top: 3px;margin-left: 25px">
 									<button ion-button color="danger" clear icon-only (click)="deleteWeeklyClicked(weeklyData)">
 										<ion-icon name="trash" is-active="true"></ion-icon>
 									</button>
 								</ion-item>
 							</div>
-							<div [hidden]="!hideMinorDeleteBtn">
+							<div *ngIf="hideMinorDeleteBtn">
+							<!--<div [hidden]="!hideMinorDeleteBtn">-->
 								<ion-item no-lines style="margin-top: 11px;">
 									<ion-toggle [(ngModel)]="weeklyData.isEnable" (click)="updateWeeklyIsEnable(weeklyData)"></ion-toggle>
 								</ion-item>

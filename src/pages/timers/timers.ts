@@ -50,6 +50,8 @@ export class TimersPage {
       this.scanText = 'SCAN';
       this.scanColor = 'primary';
     }
+
+    console.log(this.timers);
   }
 
   public takePicture(timer) {

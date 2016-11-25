@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, NavParams, Platform, ModalController, AlertController, ToastController, ItemSliding } from 'ionic-angular';
 import { SQLite } from 'ionic-native';
 
@@ -45,13 +45,14 @@ export class ProgramMainPage {
         public toastCtrl: ToastController) {
         this.timerId = this.params.get('timerId');
         this.zoneId = this.params.get('zoneId');
-        platform.ready().then(() => {
-            this.database = new SQLite();
-            this.database.openDatabase({ name: "bleDB.db", location: "default" }).then(() => {
-                this.getCycleData();
-            }, (error) => {
-                //console.log("ERROR: ", error);
-            });
+    }
+
+    ngOnInit() {
+        this.database = new SQLite();
+        this.database.openDatabase({ name: "bleDB.db", location: "default" }).then(() => {
+            this.getCycleData();
+        }, (error) => {
+            //console.log("ERROR: ", error);
         });
     }
 
@@ -144,11 +145,12 @@ export class ProgramMainPage {
     }
 
     showDeleteClicked() {
-        if (this.hideMinorDeleteBtn == true) {
-            this.hideMinorDeleteBtn = false;
-        } else {
-            this.hideMinorDeleteBtn = true;
-        }
+        this.hideMinorDeleteBtn = !this.hideMinorDeleteBtn;
+        // if (this.hideMinorDeleteBtn == true) {
+        //     this.hideMinorDeleteBtn = false;
+        // } else {
+        //     this.hideMinorDeleteBtn = true;
+        // }
     }
 
     updateWeeklyIsEnable(weeklyData) {
@@ -292,7 +294,7 @@ export class ProgramMainPage {
         var weekString = "";
         if (str != "") {
             var days = [{ item: 'Sun ' }, { item: 'Mon ' }, { item: 'Tue ' },
-            { item: 'Wed ' }, { item: 'Thu ' }, { item: 'Fri ' }, { item: 'Sat' }];            
+            { item: 'Wed ' }, { item: 'Thu ' }, { item: 'Fri ' }, { item: 'Sat' }];
             for (var i = 0; i < 7; i++) {
                 if (str.indexOf(i.toString()) >= 0) {
                     weekString += days[i].item;
