@@ -8,7 +8,8 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'valves.html'
 })
 export class ValvesPage {
-
+  timerSpec: {};
+  timerModel: string;
   timerId: string;
   zones: number;
   zoneSelected: number;
@@ -19,8 +20,10 @@ export class ValvesPage {
     public navCtrl: NavController,
     public params: NavParams,
     public platform: Platform) {
+    this.timerSpec = params.get('timerSpec');
+    this.timerModel = params.get('timerSpec').timerModel;
     this.timerId = params.get('timerId');
-    this.zones = params.get('zones');
+    this.zones = params.get('timerSpec').zones;
   }
 
   ionViewDidLoad() {
@@ -32,7 +35,7 @@ export class ValvesPage {
 
   goToTabs(zoneId) {
     this.zoneSelected = zoneId;
-    this.navCtrl.push(TabsPage, { timerId: this.timerId, zoneId: this.zoneSelected });
+    this.navCtrl.push(TabsPage, { timerSpec: this.timerSpec, timerId: this.timerId, zoneId: this.zoneSelected });
   }
 
   public takePicture(zone) {

@@ -1,7 +1,11 @@
 page-program2 {
     
-ion-grid ion-row ion-col div h1 p ion-item {
+ion-list, ion-grid, ion-row, ion-col, div, h1, p, ion-item {
     padding: 0px !important;
+}
+
+ion-label {
+    color: black !important;
 }
 
 .alignleft { 
@@ -16,5 +20,9 @@ ion-grid ion-row ion-col div h1 p ion-item {
 .alignmiddle { 
     position: relative !important; 
     float: middle !important; 
+    }
+
+.listTitle {
+        color: black !important;
     }
 }

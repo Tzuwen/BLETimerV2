@@ -26,4 +26,22 @@ h1 {
     -webkit-backface-visibility: hidden !important;
 }
 
+ion-label {
+    color: black !important;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.wrapper h1 {
+  //background-color: black;
+  bottom: 20%;
+  color: white;  
+  font-size: 3em;
+  left: 50%;
+  //padding: 0em 0.75em;
+  position: absolute;
+}
+
 }

@@ -1,13 +1,24 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{timerId}},Zone{{zoneId}}</ion-title>
+    <ion-title>{{timerModel}}, Zone{{zoneId}}      
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only disabled>
+        <ion-icon name="md-speedometer"></ion-icon>
+      </button>
+    </ion-buttons>  
+    <ion-buttons end>
+      <button ion-button icon-only>
+        <ion-icon name="md-bluetooth"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
 <ion-tabs>
-  <ion-tab [root]="tab1Root" tabTitle="PROGRAM" tabIcon="ios-water" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>
-  <ion-tab [root]="tab2Root" tabTitle="MANUAL" tabIcon="md-hand" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>
-  <ion-tab [root]="tab3Root" tabTitle="CONFIG" tabIcon="md-settings" [rootParams]="{ timerId: timerId, zoneId: zoneId }"></ion-tab>
+  <ion-tab [root]="tab1Root" tabTitle="PROGRAM" tabIcon="ios-water" [rootParams]="{ timerSpec: timerSpec, timerId: timerId, zoneId: zoneId }"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="MANUAL" tabIcon="md-hand" [rootParams]="{ timerSpec: timerSpec, timerId: timerId, zoneId: zoneId }"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="CONFIG" tabIcon="md-settings" [rootParams]="{ timerSpec: timerSpec, timerId: timerId, zoneId: zoneId }"></ion-tab>
 </ion-tabs>
 </ion-content>

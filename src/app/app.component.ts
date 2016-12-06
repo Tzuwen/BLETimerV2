@@ -26,7 +26,7 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS bleTimer (" +
-          "TimerId TEXT, ZoneId INTEGER, PhotoPath TEXT)",
+          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER, PhotoPath TEXT)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {
@@ -41,8 +41,8 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS cycleSchedule (" +
-          "TimerId TEXT, ZoneId INTEGER, StartTime TEXT, " +
-          "WaterFor INTEGER, WaterEvery INTEGER, IsEnable INTEGER, EcoWaterFor INTEGER, EcoPause INTEGER, EcoIsEnable INTEGER)",
+          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER, StartTime TEXT, " +
+          "WaterFor INTEGER, WaterEvery INTEGER, IsEnable INTEGER, EcoWaterFor INTEGER, EcoPause INTEGER, EcoIsEnable INTEGER, Moist TEXT)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {
@@ -58,8 +58,8 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS weeklySchedule (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-          "TimerId TEXT, ZoneId INTEGER, StartTime TEXT, " +
-          "WaterFor INTEGER, WaterDay TEXT, IsEnable INTEGER, EcoWaterFor INTEGER, EcoPause INTEGER, EcoIsEnable INTEGER)",
+          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER, StartTime TEXT, " +
+          "WaterFor INTEGER, WaterDay TEXT, IsEnable INTEGER, EcoWaterFor INTEGER, EcoPause INTEGER, EcoIsEnable INTEGER, Moist TEXT)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {

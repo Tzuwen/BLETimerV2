@@ -1,37 +1,36 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{timerId}},Zone{{zoneId}}</ion-title>
+		<ion-title>{{timerModel}}, Zone{{zoneId}}{{cycleId}}</ion-title>
 	</ion-navbar>
-
-	<ion-toolbar no-border-top full transparent>
-		<ion-row>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[0].color}}' (click)='weekdayBtnClicked(0)'>SU</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[1].color}}' (click)='weekdayBtnClicked(1)'>MO</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[2].color}}' (click)='weekdayBtnClicked(2)'>TU</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[3].color}}' (click)='weekdayBtnClicked(3)'>WE</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[4].color}}' (click)='weekdayBtnClicked(4)'>TH</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[5].color}}' (click)='weekdayBtnClicked(5)'>FR</button>
-			</ion-col>
-			<ion-col class="nopadding">
-				<button ion-button small full color='{{weekdays[6].color}}' (click)='weekdayBtnClicked(6)'>SA</button>
-			</ion-col>
-		</ion-row>
-	</ion-toolbar>
 </ion-header>
 
 
 <ion-content padding style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
+	<ion-toolbar no-border-top full transparent>
+		<ion-row>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[0].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(0)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[1].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(1)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[2].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(2)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[3].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(3)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[4].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(4)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[5].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(5)">
+			</ion-col>
+			<ion-col class="nopadding">
+				<img src="{{weekdays[6].img}}" style="width : 100% ; height : 100%" (click)="weekdayBtnClicked(6)">
+			</ion-col>
+		</ion-row>
+	</ion-toolbar>
 	<ion-list>
 		<ion-item>
 			<ion-label>Start Time</ion-label>
@@ -44,28 +43,34 @@
 				<ion-option *ngFor="let waterFor of waterForList">{{waterFor.item}}</ion-option>
 			</ion-select>
 		</ion-item>
+		<div *ngIf="ecoFunction">
+			<ion-item>
+				<ion-label>ECO Function</ion-label>
+				<ion-toggle [(ngModel)]="ecoIsEnable" checked="false"></ion-toggle>
+			</ion-item>
 
-		<!--<ion-item>
-			<ion-toggle [(ngModel)]="ecoIsEnable" checked="false"></ion-toggle>
-			<ion-label>
-				ECO Function
-			</ion-label>
-		</ion-item>
+			<ion-item>
+				<ion-label>ECO Water For</ion-label>
+				<ion-select [(ngModel)]="ecoWaterForSelected">
+					<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
+				</ion-select>
+			</ion-item>
 
-		<ion-item>
-			<ion-label>ECO Water For</ion-label>
-			<ion-select [(ngModel)]="ecoWaterForSelected">
-				<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
-			</ion-select>
-		</ion-item>
-
-		<ion-item>
-			<ion-label>ECO Water Every</ion-label>
-			<ion-select [(ngModel)]="ecoPauseSelected">
-				<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
-			</ion-select>
-		</ion-item>-->
-
+			<ion-item>
+				<ion-label>ECO Water Every</ion-label>
+				<ion-select [(ngModel)]="ecoPauseSelected">
+					<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
+				</ion-select>
+			</ion-item>
+		</div>
+		<div *ngIf="sensorFunction">
+			<ion-item>
+				<ion-label>Sensor</ion-label>
+				<ion-select [(ngModel)]="moistSelected">
+					<ion-option *ngFor="let moist of sensorMoistList">{{moist.item}}</ion-option>
+				</ion-select>
+			</ion-item>
+		</div>
 	</ion-list>
 </ion-content>
 

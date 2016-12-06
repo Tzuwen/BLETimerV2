@@ -5,9 +5,20 @@
 </ion-header>
 
 <ion-content text-center style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
-	<!--<h1>00:00:00</h1>-->
-	<h1> Water For</h1>
-	<div text-center>		
+	<br><br><br>
+	<ion-item style="">
+		<ion-label>Water For</ion-label>
+		<ion-select [(ngModel)]="waterForSelected">
+			<ion-option *ngFor="let waterFor of waterForList">{{waterFor.item}}</ion-option>
+		</ion-select>
+	</ion-item>
+	<br><br>
+	<div class="wrapper">
+		<img src="{{imgSrc}}" style="width : 40% ; height : 40%" (click)="manualEnable()">
+		<h1>{{timeRemain}}</h1>
+	</div>
+	<!--<h1> Water For</h1>
+	<div text-center>
 		<ion-card>
 			<ion-row style="height:130px;">
 				<ion-col>
@@ -28,5 +39,5 @@
 		<ion-col col-50>
 			<button ion-button color="secondary" full (click)="startClicked()">START</button>
 		</ion-col>
-	</ion-row>
+	</ion-row>-->
 </ion-content>

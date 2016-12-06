@@ -9,8 +9,11 @@ import { ConfigPage } from '../config/config';
   templateUrl: 'tabs.html'
 })
 export class TabsPage {
+  timerSpec = {};
+  timerModel: string;
   timerId: string;
   zoneId: number;
+ 
   // this tells the tabs component which Pages
   // should be each tab's root Page
   //tab1Root: any = TimersPage;
@@ -19,11 +22,9 @@ export class TabsPage {
   tab3Root: any = ConfigPage;
 
   constructor(public navCtrl: NavController, public params: NavParams) {
+    this.timerSpec = params.get('timerSpec');
+    this.timerModel = params.get('timerSpec').timerModel;
     this.timerId = params.get('timerId');
     this.zoneId = params.get('zoneId');
-  }
-
-  test() {
-    console.log('hello');
   }
 }

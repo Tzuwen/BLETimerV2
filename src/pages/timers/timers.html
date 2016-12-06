@@ -16,10 +16,10 @@
 				<ion-col col-75 class="no-padding">
 					<img src="{{ timer.Image }}" (click)="takePicture(timer)" class="thumbnail">
 				</ion-col>
-				<ion-col col-25 (click)="goToValves(timer.timerId, timer.zones)" class="no-padding">
+				<ion-col col-25 (click)="goToValves(timer.timerModel, timer.timerId)" class="no-padding">
 					<div style="height: 100%; text-align: center;">
-						<h2>{{timer.timerId}}</h2>
-						<p>Zones : {{timer.zones}}</p>
+						<h2>{{timer.timerModel}}</h2>
+						<p>Id : {{timer.timerId}}</p>
 					</div>
 				</ion-col>
 			</ion-row>

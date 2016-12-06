@@ -1,6 +1,6 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>{{timerId}},Zone{{zoneId}}</ion-title>
+		<ion-title>{{timerModel}}, Zone{{zoneId}}</ion-title>
 	</ion-navbar>
 	<ion-toolbar no-border-top transparent>
 		<ion-row>
@@ -32,28 +32,32 @@
 						<ion-option *ngFor="let waterFor of watereEeryList">{{waterFor.item}}</ion-option>
 					</ion-select>
 				</ion-item>
-
-				<!--<ion-item>
-					<ion-label>
-						ECO Function
-					</ion-label>
-					<ion-toggle [(ngModel)]="ecoIsEnable" checked="false"></ion-toggle>
-				</ion-item>
-
-				<ion-item>
-					<ion-label>ECO Water For</ion-label>
-					<ion-select [(ngModel)]="ecoWaterForSelected">
-						<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
-					</ion-select>
-				</ion-item>
-
-				<ion-item>
-					<ion-label>ECO Water Every</ion-label>
-					<ion-select [(ngModel)]="ecoPauseSelected">
-						<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
-					</ion-select>
-				</ion-item>-->
-
+				<div *ngIf="ecoFunction">
+					<ion-item>
+						<ion-label>ECO Function</ion-label>
+						<ion-toggle [(ngModel)]="ecoIsEnable" checked="false"></ion-toggle>
+					</ion-item>
+					<ion-item>
+						<ion-label>ECO Water For</ion-label>
+						<ion-select [(ngModel)]="ecoWaterForSelected">
+							<ion-option *ngFor="let ecoWaterFor of ecoWaterForList">{{ecoWaterFor.item}}</ion-option>
+						</ion-select>
+					</ion-item>
+					<ion-item>
+						<ion-label>ECO Water Every</ion-label>
+						<ion-select [(ngModel)]="ecoPauseSelected">
+							<ion-option *ngFor="let ecoPause of ecoPauseList">{{ecoPause.item}}</ion-option>
+						</ion-select>
+					</ion-item>
+				</div>
+				<div *ngIf="sensorFunction">
+					<ion-item>
+						<ion-label>Sensor</ion-label>
+						<ion-select [(ngModel)]="moistSelected">
+							<ion-option *ngFor="let moist of sensorMoistList">{{moist.item}}</ion-option>
+						</ion-select>
+					</ion-item>
+				</div>
 				<ion-item>
 					<ion-label>
 						Program
@@ -65,67 +69,56 @@
 		</div>
 
 		<div *ngSwitchCase="'weekly'">
-			<!--<ion-row start>
-				<ion-buttons [hidden]="hideMainDeleteBtn">
-					<button ion-button outline icon-left color="danger" style="font-weight: bold;" (click)="showDeleteClicked()">
+			<div *ngIf="ecoFunction">
+				<ion-row start>
+					<ion-buttons [hidden]="hideMainDeleteBtn">
+						<button ion-button outline icon-left color="danger" style="font-weight: bold;" (click)="showDeleteClicked()">
 						<ion-icon name="trash"></ion-icon>
 						Delete
 						</button>
-				</ion-buttons>
-				<ion-title text-center>Schedule</ion-title>
-				<ion-buttons end>
-					<button ion-button outline icon-left style="font-weight: bold;" (click)="goToProgramDetailClick()">
+					</ion-buttons>
+					<ion-title text-center>Schedule</ion-title>
+					<ion-buttons end>
+						<button ion-button outline icon-left style="font-weight: bold;" (click)="goToProgramDetailClick()">
 						<ion-icon name="add"></ion-icon>
 						Add
 						</button>
-				</ion-buttons>
-			</ion-row>-->
-
-			<!--<ion-list>
-				<ion-item-sliding *ngFor="let weeklyData of weeklyDataList">
-					<ion-item>
-						<ion-row>
-							<ion-col>
-								<div>
-									<p color="primary" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
-									<h1 color="black" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
-									<p color="primary" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
-								</div>
-							</ion-col>
-							<ion-col width-33>
-								<ion-item no-lines style="margin-top: 11px;">
-									<ion-toggle [(ngModel)]="weeklyData.isEnable" (click)="updateWeeklyIsEnable(weeklyData)"></ion-toggle>
-								</ion-item>
-							</ion-col>
-						</ion-row>
-					</ion-item>
-					<ion-item-options side="right">
-						<button ion-button icon-only color="danger" (click)="deleteWeeklyClicked(weeklyData)"><ion-icon name="trash"></ion-icon></button>
-						<button ion-button icon-only color="secondary" (click)="editWeeklyClicked(weeklyData)"><ion-icon name="md-create"></ion-icon></button>						
-					</ion-item-options>
-				</ion-item-sliding>
-			</ion-list>-->
+					</ion-buttons>
+				</ion-row>
+			</div>
 
 			<ion-list>
 				<ion-item *ngFor="let weeklyData of weeklyDataList">
 					<ion-row>
 						<ion-col width-67 (click)="editWeeklyClicked(weeklyData)">
 							<div *ngIf="weeklyData.isEnable">
-							<!--<div [hidden]="!weeklyData.isEnable">-->
-								<p color="primary" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
-								<h1 color="black" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
-								<p color="primary" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
-							</div>							
+								<ion-row>
+									<ion-col width-10>
+										<h1 color="black">{{weeklyData.cycleId}}</h1>
+									</ion-col>
+									<ion-col width-90>
+										<p color="primary" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
+										<h1 color="black" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
+										<p color="primary" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
+									</ion-col>
+								</ion-row>
+							</div>
 							<div *ngIf="!weeklyData.isEnable">
-							<!--<div [hidden]="weeklyData.isEnable">-->
-								<p color="lightgray" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
-								<h1 color="lightgray" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
-								<p color="lightgray" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
+								<ion-row>
+									<ion-col width-10>
+										<h1 color="lightgray">{{weeklyData.cycleId}}</h1>
+									</ion-col>
+									<ion-col width-90>
+										<p color="lightgray" style="font-weight: bold;">{{weeklyData.waterDay}}</p>
+										<h1 color="lightgray" style="font-weight: bold;">{{weeklyData.startTime}}</h1>
+										<p color="lightgray" style="font-weight: bold;">Water For : {{weeklyData.waterFor}}</p>
+									</ion-col>
+								</ion-row>
 							</div>
 						</ion-col>
 						<ion-col width-33>
 							<div *ngIf="!hideMinorDeleteBtn">
-							<!--<div [hidden]="hideMinorDeleteBtn">-->
+								<!--<div [hidden]="hideMinorDeleteBtn">-->
 								<ion-item no-lines style="margin-top: 3px;margin-left: 25px">
 									<button ion-button color="danger" clear icon-only (click)="deleteWeeklyClicked(weeklyData)">
 										<ion-icon name="trash" is-active="true"></ion-icon>
@@ -133,7 +126,7 @@
 								</ion-item>
 							</div>
 							<div *ngIf="hideMinorDeleteBtn">
-							<!--<div [hidden]="!hideMinorDeleteBtn">-->
+								<!--<div [hidden]="!hideMinorDeleteBtn">-->
 								<ion-item no-lines style="margin-top: 11px;">
 									<ion-toggle [(ngModel)]="weeklyData.isEnable" (click)="updateWeeklyIsEnable(weeklyData)"></ion-toggle>
 								</ion-item>
