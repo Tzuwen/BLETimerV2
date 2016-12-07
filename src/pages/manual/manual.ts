@@ -10,12 +10,16 @@ export class ManualPage {
 
     timerId: string;
     zoneId: number = 1;
-    isWatering: boolean = false;
+
     currentIndex: number = 0;
     sliderMins = [];
-    //minSelected: string = '1';
     imgSrc = "assets/img/water-drop-off_g.png";
-    timeRemain = 0;
+
+    started: boolean = false;
+    stoped: boolean = false;
+    isWatering: boolean = false;
+    timeRemain: number;
+    showTime: string;
 
     waterForSelected: string = '5 Minutes';
     waterForList = [];
@@ -50,22 +54,7 @@ export class ManualPage {
     }
 
     ionViewDidLoad() {
-        // var j = 35
-        // for (var i = -1; i <= 97; i++) {
-        //     if (i == -1 || i == 97) {
-        //         this.sliderMins.push({ item: '' });
-        //     } else if (i > 30 && i < 97) {
-        //         this.sliderMins.push({ item: j });
-        //         j += 5;
-        //     } else {
-        //         if (i != 0) {
-        //             this.sliderMins.push({ item: i });
-        //         }
-        //     }
-        // }
-
         var j = 35
-
         for (var i = 1; i <= 96; i++) {
             var unit = " Minutes"
             if (i > 30) {
@@ -78,67 +67,67 @@ export class ManualPage {
                 this.waterForList.push({ item: i + unit });
             }
         }
+
+        if (this.isWatering == false && this.started == false && this.stoped == false) {
+            this.showTime = this.secondsToHms(this.getMinutes(this.waterForSelected) * 60);
+        }
     }
 
-    manualEnable() {
-        this.isWatering = !this.isWatering;
-        if (this.isWatering) {
-            this.imgSrc = "assets/img/water-drop-on.png";
-            this.presentToast('Start water for ' + this.waterForSelected);           
-            this.countdownStart(this.getMinutes(this.waterForSelected) * 60);
-        }
-        else {
-            this.imgSrc = "assets/img/water-drop-off_g.png";
-            this.presentToast('Stop manual watering');
+    selectedChanged() {
+        if (this.isWatering == false && this.started == false && this.stoped == false) {
+            this.showTime = this.secondsToHms(this.getMinutes(this.waterForSelected) * 60);
         }
     }
 
     startClicked() {
-        var minutes = (this.slider1.getActiveIndex() + 1);
-        if (minutes == -1 || minutes >= 97) {
-            if (minutes == -1) {
-                minutes = 5;
-            } else {
-                minutes = 360;
-            }
-        } else {
-            minutes = this.sliderMins[minutes].item;
-        }
         this.isWatering = true;
-        this.presentToast('Start water for ' + this.waterForSelected);
+        this.started = true;
+        this.stoped = false;
+        this.imgSrc = "assets/img/water-drop-on.png";
+        this.countdownStart(this.getMinutes(this.waterForSelected) * 60);
     }
 
-    stopClicked() {
+    resumeClicked() {
+        this.isWatering = true;
+        this.stoped = false;
+        this.imgSrc = "assets/img/water-drop-on.png";
+        this.countdownStart(this.timeRemain);
+    }
+
+    pauseClicked() {
         this.isWatering = false;
-        this.presentToast('Stop manual watering');
+        this.stoped = true;
+        this.imgSrc = "assets/img/water-drop-off_g.png";
     }
 
-    countdownStart(duration: number) {  
-        console.log(duration);     
-        setInterval(function () {
-            if (duration > 0) {                
+    resetClicked() {
+        this.isWatering = false;
+        this.started = false;
+        this.stoped = false;
+        this.imgSrc = "assets/img/water-drop-off_g.png";
+        this.showTime = this.secondsToHms(this.getMinutes(this.waterForSelected) * 60);
+    }
+
+    countdownStart(duration: number) {
+        if (this.started == true && this.stoped == false) {
+            setTimeout(() => {
                 duration--;
-                console.log(duration);                
-            }            
-        }, 1000);
-        this.timeRemain = duration;
+                if (duration > -1) {
+                    this.countdownStart(duration);
+                    this.timeRemain = duration;
+                }
+                else {
+                    this.isWatering = false;
+                    this.started = false;
+                    this.stoped = false;
+                    this.timeRemain = 0;
+                    duration = 0;
+                    this.imgSrc = "assets/img/water-drop-off_g.png";
+                }
+            }, 1000);
+        }
+        this.showTime = this.secondsToHms(duration);
     }
-
-    // countdownStart(duration: number) {
-    //     var timer = duration, minutes, seconds;
-    //     setInterval(function () {
-    //         minutes = parseInt((timer / 60).toString(), 10);
-    //         seconds = parseInt((timer % 60).toString(), 10);)
-    //         minutes = minutes < 10 ? "0" + minutes : minutes;
-    //         seconds = seconds < 10 ? "0" + seconds : seconds;
-    //         this.timerRemain = minutes + ':' + seconds;
-
-    //         if (timer > 0) {
-    //             console.log(this.timerRemain);
-    //             timer--;
-    //         }
-    //     }, 1000);
-    // }
 
     presentToast(msg) {
         let toast = this.toastCtrl.create({
@@ -153,10 +142,10 @@ export class ManualPage {
         // console.log(this.slider1.getActiveIndex());
     }
 
-    private getMinutes(str: string) {       
+    private getMinutes(str: string) {
         var strsplited = strsplited = str.split(' ');
         var result: number = 0;
-        if (strsplited[1] == 'Minutes') {
+        if (strsplited[1] == 'Minutes' || strsplited[1] == 'Minute') {
             result = strsplited[0];
         } else if (strsplited[1] == 'Hours') {
             result = strsplited[0] * 60;
@@ -164,5 +153,17 @@ export class ManualPage {
             result = (strsplited[0] * 24) * 60;
         }
         return result;
+    }
+
+    private secondsToHms(d) {
+        d = Number(d);
+        var h = Math.floor(d / 3600);
+        var m = Math.floor(d % 3600 / 60);
+        var s = Math.floor(d % 3600 % 60);
+
+        var hDisplay = h < 10 ? '0' + h.toString() : h.toString();
+        var mDisplay = m < 10 ? '0' + m.toString() : m.toString();
+        var sDisplay = s < 10 ? '0' + s.toString() : s.toString();
+        return hDisplay + ":" + mDisplay + ":" + sDisplay;
     }
 }

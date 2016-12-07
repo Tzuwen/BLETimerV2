@@ -6,17 +6,27 @@
 
 <ion-content text-center style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
 	<br><br><br>
-	<ion-item style="">
+	<ion-item>
 		<ion-label>Water For</ion-label>
-		<ion-select [(ngModel)]="waterForSelected">
+		<ion-select [(ngModel)]="waterForSelected" [disabled]="started" (ionChange)="selectedChanged()" >
 			<ion-option *ngFor="let waterFor of waterForList">{{waterFor.item}}</ion-option>
 		</ion-select>
 	</ion-item>
 	<br><br>
-	<div class="wrapper">
-		<img src="{{imgSrc}}" style="width : 40% ; height : 40%" (click)="manualEnable()">
-		<h1>{{timeRemain}}</h1>
+	<div>
+		<img src="{{imgSrc}}" style="width : 40% ; height : 40%">
+		<h1>{{showTime}}</h1>
 	</div>
+	<ion-row>
+		<ion-col width-50>
+			<button ion-button full *ngIf="!stoped" (click)="pauseClicked()" color="danger" [disabled]="!isWatering" >PAUSE</button>
+			<button ion-button full *ngIf="stoped" (click)="resetClicked()">RESET</button>
+		</ion-col>
+		<ion-col width-50>
+			<button ion-button full *ngIf="!started" (click)="startClicked()">START</button>
+			<button ion-button full *ngIf="started" (click)="resumeClicked()" color="secondary" [disabled]="isWatering" >RESUME</button>
+		</ion-col>
+	</ion-row>
 	<!--<h1> Water For</h1>
 	<div text-center>
 		<ion-card>
