@@ -1,5 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, NavParams, Slides, ToastController } from 'ionic-angular';
+import { SQLite } from 'ionic-native';
 
 @Component({
     selector: 'page-manual',
@@ -16,10 +17,12 @@ export class ManualPage {
     imgSrc = "assets/img/water-drop-off_g.png";
 
     started: boolean = false;
+    startTime: string;
     stoped: boolean = false;
     isWatering: boolean = false;
     timeRemain: number;
     showTime: string;
+    
 
     waterForSelected: string = '5 Minutes';
     waterForList = [];
@@ -42,6 +45,9 @@ export class ManualPage {
             slideShadows: false
         }
     };
+
+    database: SQLite;
+    weeklyDataList = [];
 
     @ViewChild('mySlider1') slider1: Slides;
 
@@ -72,6 +78,24 @@ export class ManualPage {
             this.showTime = this.secondsToHms(this.getMinutes(this.waterForSelected) * 60);
         }
     }
+
+    // private getManualData() {
+    //     this.database.executeSql("SELECT * FROM manualSchedule " +
+    //         "WHERE TimerId = '" + this.timerId + "' and ZoneId = '" + this.zoneId + "'", []).then((data) => {
+    //             if (data.rows.length > 0) {
+    //                 this.startTime = data.rows.item(0).StartTime;
+    //                 this.started = data.rows.item(0).Started;
+    //                 this.stoped = data.rows.item(0).Stoped;
+    //                 this.isWatering = data.rows.item(0).IsWatering;
+    //                 this.timeRemain = data.rows.item(0).TimeRemain;
+    //             } else {
+    //                 this.resumeClicked();
+    //             }
+    //             //console.log("Load Cycle Data: " + JSON.stringify(data));
+    //         }, (error) => {
+    //             //console.log("ERROR(cycle): " + JSON.stringify(error));
+    //         });
+    // }
 
     selectedChanged() {
         if (this.isWatering == false && this.started == false && this.stoped == false) {
@@ -126,7 +150,12 @@ export class ManualPage {
                 }
             }, 1000);
         }
-        this.showTime = this.secondsToHms(duration);
+        if (duration == 0) {
+            this.showTime = this.secondsToHms(this.getMinutes(this.waterForSelected) * 60);
+        } else {
+            this.showTime = this.secondsToHms(duration);
+        }
+
     }
 
     presentToast(msg) {
@@ -156,14 +185,22 @@ export class ManualPage {
     }
 
     private secondsToHms(d) {
-        d = Number(d);
-        var h = Math.floor(d / 3600);
-        var m = Math.floor(d % 3600 / 60);
-        var s = Math.floor(d % 3600 % 60);
-
-        var hDisplay = h < 10 ? '0' + h.toString() : h.toString();
+        d = Number(d);        
+        var m = Math.floor(d / 60);
+        var s = Math.floor(d % 3600 % 60);        
         var mDisplay = m < 10 ? '0' + m.toString() : m.toString();
         var sDisplay = s < 10 ? '0' + s.toString() : s.toString();
-        return hDisplay + ":" + mDisplay + ":" + sDisplay;
+        return mDisplay + ":" + sDisplay;
+        // d = Number(d);
+        // var h = Math.floor(d / 3600);
+        // var m = Math.floor(d % 3600 / 60);
+        // var s = Math.floor(d % 3600 % 60);
+
+        // var hDisplay = h < 10 ? '0' + h.toString() : h.toString();
+        // var mDisplay = m < 10 ? '0' + m.toString() : m.toString();
+        // var sDisplay = s < 10 ? '0' + s.toString() : s.toString();
+        // return hDisplay + ":" + mDisplay + ":" + sDisplay;
     }
+
+    
 }

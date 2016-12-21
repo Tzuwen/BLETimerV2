@@ -1,28 +1,28 @@
-page-program2 {
+page-programain {
     
 ion-list, ion-grid, ion-row, ion-col, div, h1, p, ion-item {
     padding: 0px !important;
 }
 
-ion-label {
-    color: black !important;
-}
-
 .alignleft { 
     position: relative !important; 
     float: left !important; 
-    } 
+} 
 .alignright { 
     position: relative !important; 
     float: right !important;
-    } 
+} 
 
 .alignmiddle { 
     position: relative !important; 
     float: middle !important; 
-    }
+}
 
 .listTitle {
         color: black !important;
-    }
+}
+
+ion-label {
+    color: black !important;
+}
 }

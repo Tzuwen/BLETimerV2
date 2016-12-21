@@ -10,11 +10,20 @@
 </ion-header>
 
 <ion-content padding style="background-image: url('assets/img/backgroundimage.jpg');background-size: cover;">
-	<ion-list class="no-padding">
+<ion-card *ngFor="let timer of timers">
+	<img src="{{ timer.Image }}" (click)="takePicture(timer)" class="thumbnail"/>
+	<ion-card-content (click)="goToValves(timer.timerModel, timer.timerId)">
+		<ion-card-title>
+			{{timer.timerModel}}
+		</ion-card-title>
+		<p>Id : {{timer.timerId}}</p>	
+	</ion-card-content>
+</ion-card>
+	<!--<ion-list class="no-padding">
 		<ion-item *ngFor="let timer of timers">
 			<ion-row>
 				<ion-col col-75 class="no-padding">
-					<img src="{{ timer.Image }}" (click)="takePicture(timer)" class="thumbnail">
+					<img src="{{ timer.Image }}" (click)="takePicture(timer)" class="thumbnail"/>
 				</ion-col>
 				<ion-col col-25 (click)="goToValves(timer.timerModel, timer.timerId)" class="no-padding">
 					<div style="height: 100%; text-align: center;">
@@ -24,5 +33,5 @@
 				</ion-col>
 			</ion-row>
 		</ion-item>
-	</ion-list>
+	</ion-list>-->
 </ion-content>

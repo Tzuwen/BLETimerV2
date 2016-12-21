@@ -41,9 +41,9 @@ export class ProgramMainPage {
     ecoWaterForList = [];
     ecoPauseList = [];
 
-    moistSelected = "MEDIUM";
-    sensorMoistList = [{ item: 'DRY' }, { item: 'MOIST' }, { item: 'MEDIUM' },
-        { item: 'WET' }, { item: 'WETTEST' }];
+    moistSelected = 3;
+    // sensorMoistList = [{ item: 'DRY' }, { item: 'MOIST' }, { item: 'MEDIUM' },
+    //     { item: 'WET' }, { item: 'WETTEST' }];
 
     database: SQLite;
     weeklyDataList = [];
@@ -73,10 +73,24 @@ export class ProgramMainPage {
     }
 
     ionViewDidLoad() {
-        var j = 5;
-        for (var i = 0; i < 52; i++) {
-            this.waterForList.push({ item: j + ' Minutes' });
-            j += 5;
+        // var j = 5;
+        // for (var i = 0; i < 52; i++) {
+        //     this.waterForList.push({ item: j + ' Minutes' });
+        //     j += 5;
+        // }
+
+        var j = 35
+        for (var i = 1; i <= 96; i++) {
+            var unit = " Minutes"
+            if (i > 30) {
+                this.waterForList.push({ item: j + unit });
+                j += 5;
+            } else {
+                if (i == 1) {
+                    unit = " Minute";
+                }
+                this.waterForList.push({ item: i + unit });
+            }
         }
 
         for (var i = 3; i <= 30; i++) {
@@ -222,7 +236,7 @@ export class ProgramMainPage {
                     this.ecoIsEnable = false;
                     this.ecoWaterForSelected = '3 Minutes';
                     this.ecoPauseSelected = '3 Minutes';
-                    this.moistSelected = 'MEDIUM';
+                    this.moistSelected = 3;
                 }
                 //console.log("Load Cycle Data: " + JSON.stringify(data));
             }, (error) => {

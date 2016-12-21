@@ -63,13 +63,20 @@
 				</ion-select>
 			</ion-item>
 		</div>
-		<div *ngIf="sensorFunction">
+		<div *ngIf="sensorFunction">			
 			<ion-item>
+				<ion-label>Moist Sensor</ion-label>
+				<ion-range min="1" max="5" step="1" snaps="true" pin="true" [(ngModel)]="moistSelected" color="primary">
+					<ion-icon range-left small color="primary" name="ios-water"></ion-icon>
+					<ion-icon range-right color="primary" name="ios-water"></ion-icon>
+				</ion-range>
+			</ion-item>
+			<!--<ion-item>
 				<ion-label>Sensor</ion-label>
 				<ion-select [(ngModel)]="moistSelected">
 					<ion-option *ngFor="let moist of sensorMoistList">{{moist.item}}</ion-option>
 				</ion-select>
-			</ion-item>
+			</ion-item>-->
 		</div>
 	</ion-list>
 </ion-content>
@@ -77,10 +84,12 @@
 <ion-footer>
 	<ion-row>
 		<ion-col col-50>
-			<button ion-button color="danger" (click)="cancelClicked()" full>CANCEL</button>
+			<button ion-button color="danger" (click)="cancelClicked()" full>
+				<ion-icon name="md-close"></ion-icon></button>
 		</ion-col>
 		<ion-col col-50>
-			<button ion-button color="secondary" (click)="saveClicked()" full>SAVE</button>
+			<button ion-button color="secondary" (click)="saveClicked()" full>
+				<ion-icon name="md-checkmark"></ion-icon></button>
 		</ion-col>
 	</ion-row>
 </ion-footer>

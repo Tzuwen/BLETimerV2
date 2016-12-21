@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, Platform } from 'ionic-angular';
+import { DateTime, NavController, NavParams, Platform } from 'ionic-angular';
 import { Camera } from "ionic-native";
 import { ValvesPage } from '../valves/valves';
 
@@ -7,28 +7,34 @@ import { ValvesPage } from '../valves/valves';
   selector: 'page-timers',
   templateUrl: 'timers.html'
 })
-export class TimersPage {  
+export class TimersPage {
   isScan: boolean = false;
   scanText: string = 'SCAN';
   scanColor: string = 'primary';
   public base64Image: string = "assets/img/camera.png";
   timers = [];
   timerModels = [
-      { timerModel: 'LCDws-1V', zones: 1, ecoFunction: false, sensorFunction: false },// LCD with wire sensor
-      { timerModel: 'LCDws-2V', zones: 2, ecoFunction: false, sensorFunction: false },
-      { timerModel: 'LCDws-4V', zones: 4, ecoFunction: false, sensorFunction: false },
-      { timerModel: 'LCDrfs-1V', zones: 1, ecoFunction: false, sensorFunction: true },// LCD with rf sensor
-      { timerModel: 'LCDrfs-2V', zones: 2, ecoFunction: false, sensorFunction: true },
-      { timerModel: 'LCDrfs-4V', zones: 4, ecoFunction: false, sensorFunction: true },
-      { timerModel: 'BLEws-1V', zones: 1, ecoFunction: true, sensorFunction: false },// Only wire sensor, no LCD
-      { timerModel: 'BLEws-2V', zones: 2, ecoFunction: true, sensorFunction: false },
-      { timerModel: 'BLEws-4V', zones: 4, ecoFunction: true, sensorFunction: false }
-    ];
-      
+    { timerModel: 'LCDws-1V', zones: 1, ecoFunction: false, sensorFunction: false },// LCD with wire sensor
+    { timerModel: 'LCDws-2V', zones: 2, ecoFunction: false, sensorFunction: false },
+    { timerModel: 'LCDws-4V', zones: 4, ecoFunction: false, sensorFunction: false },
+    { timerModel: 'LCDrfs-1V', zones: 1, ecoFunction: false, sensorFunction: true },// LCD with rf sensor
+    { timerModel: 'LCDrfs-2V', zones: 2, ecoFunction: false, sensorFunction: true },
+    { timerModel: 'LCDrfs-4V', zones: 4, ecoFunction: false, sensorFunction: true },
+    { timerModel: 'BLEws-1V', zones: 1, ecoFunction: true, sensorFunction: false },// Only wire sensor, no LCD
+    { timerModel: 'BLEws-2V', zones: 2, ecoFunction: true, sensorFunction: false },
+    { timerModel: 'BLEws-4V', zones: 4, ecoFunction: true, sensorFunction: false }
+  ];
+
   constructor(
     public navCtrl: NavController,
     public params: NavParams,
     public platform: Platform) {
+    // test
+    var now = new Date();
+    console.log(now.toUTCString());
+    var oldTime = '1980-11-06T00:00:00.000Z';
+    console.log(oldTime);
+    
   }
 
   goToValves(timerModel, timerId) {
@@ -38,11 +44,11 @@ export class TimersPage {
     this.scanColor = 'primary';
     // get model spec
     this.timerModels.forEach(element => {
-      if (element.timerModel == timerModel) {       
+      if (element.timerModel == timerModel) {
         this.navCtrl.push(ValvesPage, { timerSpec: element, timerId: timerId });
       }
     });
-    
+
   }
 
   scan() {

@@ -26,7 +26,23 @@ export class MyApp {
         location: "default"
       }).then(() => {
         db.executeSql("CREATE TABLE IF NOT EXISTS bleTimer (" +
-          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER, PhotoPath TEXT)",
+          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER, PhotoPath TEXT, CurrentMode TEXT, RainDelay TEXT)",
+          {}).then((data) => {
+            console.log("TABLE CREATED: ", data);
+          }, (error) => {
+            console.error("Unable to execute sql", error);
+          })
+      }, (error) => {
+        console.error("Unable to open database", error);
+      });
+
+       db.openDatabase({
+        name: "bleDB.db",
+        location: "default"
+      }).then(() => {
+        db.executeSql("CREATE TABLE IF NOT EXISTS manualSchedule (" +
+          "TimerName TEXT, TimerId TEXT, ZoneId INTEGER " + 
+          "StartTime TEXT, TimeRemain INTEGER, Started INTEGER, Stoped INTEGER, IsWatering INTEGER)",
           {}).then((data) => {
             console.log("TABLE CREATED: ", data);
           }, (error) => {
