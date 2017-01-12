@@ -8,9 +8,18 @@
 <ion-card *ngFor="let zone of zoneList">
 	<img src="{{ zone.Image }}" (click)="takePicture(zone)" class="thumbnail" />
 	<ion-card-content (click)="goToTabs(zone.id)">
-		<ion-card-title>
+		<!--<ion-card-title>
 			ZONE {{zone.id}}
-		</ion-card-title>
+		</ion-card-title>-->
+		<p>ZONE {{zone.id}}</p>
+		<ion-row>
+			<ion-col>
+				<button ion-button icon-left clear small>
+					<ion-icon name="md-sync"></ion-icon>
+					<h2>01:00 PM</h2>
+				</button>
+			</ion-col>
+		</ion-row>
 	</ion-card-content>
 </ion-card>
 <!--<ion-list class="no-padding">

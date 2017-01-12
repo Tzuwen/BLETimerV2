@@ -30,8 +30,13 @@ export class ProgramDetailPage {
   ecoPauseList = [];
 
   moistSelected = 3;
-  // sensorMoistList = [{ item: 'DRY' }, { item: 'MOIST' }, { item: 'MEDIUM' },
-  // { item: 'WET' }, { item: 'WETTEST' }];
+  sensorMoistList = [
+    { id: 0, isEnable: true, img: 'assets/img/most-on-1.png' },
+    { id: 1, isEnable: true, img: 'assets/img/most-on-2.png' },
+    { id: 2, isEnable: true, img: 'assets/img/most-on-3.png' },
+    { id: 3, isEnable: false, img: 'assets/img/most-off-4.png' },
+    { id: 4, isEnable: false, img: 'assets/img/most-off-5.png' }
+  ]
 
   weekdays = [
     { id: 0, isEnable: false, color: 'secondary', img: 'assets/img/water-drop-off0_g.png' },
@@ -81,18 +86,18 @@ export class ProgramDetailPage {
     // }
 
     var j = 35
-        for (var i = 1; i <= 96; i++) {
-            var unit = " Minutes"
-            if (i > 30) {
-                this.waterForList.push({ item: j + unit });
-                j += 5;
-            } else {
-                if (i == 1) {
-                    unit = " Minute";
-                }
-                this.waterForList.push({ item: i + unit });
-            }
+    for (var i = 1; i <= 96; i++) {
+      var unit = " Minutes"
+      if (i > 30) {
+        this.waterForList.push({ item: j + unit });
+        j += 5;
+      } else {
+        if (i == 1) {
+          unit = " Minute";
         }
+        this.waterForList.push({ item: i + unit });
+      }
+    }
 
     for (var i = 3; i <= 30; i++) {
       this.ecoWaterForList.push({ item: i + ' Minutes' });
@@ -115,6 +120,19 @@ export class ProgramDetailPage {
           element.img = "assets/img/water-drop-on" + currentDay + ".png";
           //element.color = 'primary';
         }
+      }
+    });
+  }
+
+  mostBtnClicked(moist) {
+    this.sensorMoistList.forEach(element => {
+      this.moistSelected = moist;
+      if (element.id <= moist) {
+        element.isEnable = true;
+        element.img = "assets/img/most-on-" + (element.id + 1) + ".png";
+      } else {
+        element.isEnable = false;
+        element.img = "assets/img/most-off-" + (element.id + 1) + ".png";
       }
     });
   }

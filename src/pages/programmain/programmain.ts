@@ -14,7 +14,7 @@ export class ProgramMainPage {
     timerSpec: {};
     timerModel: string;
     timerId: string;
-    zoneId: number;    
+    zoneId: number;
 
     ecoFunction: boolean;
     sensorFunction: boolean;
@@ -32,8 +32,8 @@ export class ProgramMainPage {
     waterEverySelected: string = '4 Hours';
     waterForList = [];
     watereEeryList = [{ item: '4 Hours' }, { item: '6 Hours' }, { item: '8 Hours' },
-        { item: '12 Hours' }, { item: '1 Day' }, { item: '2 Days' }, { item: '3 Days' },
-        { item: '4 Days' }, { item: '5 Days' }, { item: '6 Days' }, { item: '7 Days' }];
+    { item: '12 Hours' }, { item: '1 Day' }, { item: '2 Days' }, { item: '3 Days' },
+    { item: '4 Days' }, { item: '5 Days' }, { item: '6 Days' }, { item: '7 Days' }];
 
     ecoIsEnable: boolean = false;
     ecoWaterForSelected: string = '3 Minutes';
@@ -42,6 +42,13 @@ export class ProgramMainPage {
     ecoPauseList = [];
 
     moistSelected = 3;
+    sensorMoistList = [
+        { id: 0, isEnable: true, img: 'assets/img/most-on-1.png' },
+        { id: 1, isEnable: true, img: 'assets/img/most-on-2.png' },
+        { id: 2, isEnable: true, img: 'assets/img/most-on-3.png' },
+        { id: 3, isEnable: false, img: 'assets/img/most-off-4.png' },
+        { id: 4, isEnable: false, img: 'assets/img/most-off-5.png' }
+    ]
     // sensorMoistList = [{ item: 'DRY' }, { item: 'MOIST' }, { item: 'MEDIUM' },
     //     { item: 'WET' }, { item: 'WETTEST' }];
 
@@ -73,12 +80,6 @@ export class ProgramMainPage {
     }
 
     ionViewDidLoad() {
-        // var j = 5;
-        // for (var i = 0; i < 52; i++) {
-        //     this.waterForList.push({ item: j + ' Minutes' });
-        //     j += 5;
-        // }
-
         var j = 35
         for (var i = 1; i <= 96; i++) {
             var unit = " Minutes"
@@ -216,6 +217,19 @@ export class ProgramMainPage {
         });
     }
 
+    mostBtnClicked(moist) {
+        this.sensorMoistList.forEach(element => {
+            this.moistSelected = moist;
+            if (element.id <= moist) {
+                element.isEnable = true;
+                element.img = "assets/img/most-on-" + (element.id + 1) + ".png";
+            } else {
+                element.isEnable = false;
+                element.img = "assets/img/most-off-" + (element.id + 1) + ".png";
+            }
+        });
+    }
+
     private getCycleData() {
         this.database.executeSql("SELECT * FROM cycleSchedule " +
             "WHERE TimerId = '" + this.timerId + "' and ZoneId = '" + this.zoneId + "'", []).then((data) => {
@@ -269,8 +283,7 @@ export class ProgramMainPage {
                 } else {
                     this.hideMainDeleteBtn = true;
                     // insert new data if db is null
-                    if (this.ecoFunction != true)
-                    {
+                    if (this.ecoFunction != true) {
                         this.initialWeeklyData();
                     }
                 }

@@ -1,7 +1,7 @@
 #BLE Timer APP Demo 
 ===================
 
-YM BLE Demo App using Ionic 2 framework 
+YM BLE App Demo using Ionic 2 framework 
 
 ----------
 ![enter image description here](http://i617.photobucket.com/albums/tt254/kris66_photo_photo/ble001.png)

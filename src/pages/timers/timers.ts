@@ -14,15 +14,18 @@ export class TimersPage {
   public base64Image: string = "assets/img/camera.png";
   timers = [];
   timerModels = [
-    { timerModel: 'LCDws-1V', zones: 1, ecoFunction: false, sensorFunction: false },// LCD with wire sensor
-    { timerModel: 'LCDws-2V', zones: 2, ecoFunction: false, sensorFunction: false },
-    { timerModel: 'LCDws-4V', zones: 4, ecoFunction: false, sensorFunction: false },
-    { timerModel: 'LCDrfs-1V', zones: 1, ecoFunction: false, sensorFunction: true },// LCD with rf sensor
-    { timerModel: 'LCDrfs-2V', zones: 2, ecoFunction: false, sensorFunction: true },
-    { timerModel: 'LCDrfs-4V', zones: 4, ecoFunction: false, sensorFunction: true },
-    { timerModel: 'BLEws-1V', zones: 1, ecoFunction: true, sensorFunction: false },// Only wire sensor, no LCD
-    { timerModel: 'BLEws-2V', zones: 2, ecoFunction: true, sensorFunction: false },
-    { timerModel: 'BLEws-4V', zones: 4, ecoFunction: true, sensorFunction: false }
+    { timerModel: 'VR4', zones: 4, ecoFunction: false, sensorFunction: false },
+    { timerModel: 'VR2', zones: 2, ecoFunction: false, sensorFunction: false },
+    { timerModel: 'VR1', zones: 4, ecoFunction: false, sensorFunction: false },
+    { timerModel: 'VR4-s', zones: 4, ecoFunction: false, sensorFunction: true },
+    { timerModel: 'VR2-s', zones: 2, ecoFunction: false, sensorFunction: true },
+    { timerModel: 'VR1-s', zones: 4, ecoFunction: false, sensorFunction: true },
+    { timerModel: 'Raccoon4', zones: 4, ecoFunction: true, sensorFunction: false },
+    { timerModel: 'Raccoon2', zones: 2, ecoFunction: true, sensorFunction: false },
+    { timerModel: 'Raccoon1', zones: 1, ecoFunction: true, sensorFunction: false },
+    { timerModel: 'Raccoon4-s', zones: 4, ecoFunction: true, sensorFunction: true },
+    { timerModel: 'Raccoon2-s', zones: 2, ecoFunction: true, sensorFunction: true },
+    { timerModel: 'Raccoon1-s', zones: 1, ecoFunction: true, sensorFunction: true }
   ];
 
   constructor(
@@ -54,9 +57,10 @@ export class TimersPage {
   scan() {
     // this is just for demo
     this.timers = [
-      { timerModel: 'LCDws-1V', timerId: 'aa:bb:cc:dd:ee:ff', Image: this.base64Image },
-      { timerModel: 'LCDrfs-2V', timerId: '11:22:33:44:55:66', Image: this.base64Image },
-      { timerModel: 'BLEws-4V', timerId: 'a1:b1:c1:d1:e1:f1', Image: this.base64Image }
+      { timerModel: 'VR2', timerId: 'aa:bb:cc:dd:ee:ff', Image: this.base64Image },
+      { timerModel: 'VR2-s', timerId: '11:22:33:44:55:66', Image: this.base64Image },
+      { timerModel: 'Raccoon2', timerId: 'a1:b1:c1:d1:e1:f1', Image: this.base64Image },
+      { timerModel: 'Raccoon2-s', timerId: 'a1:b1:c1:d1:e1:f2', Image: this.base64Image }
     ];
 
     // todo
